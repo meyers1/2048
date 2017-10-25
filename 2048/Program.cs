@@ -8,7 +8,7 @@ namespace _2048
 {
     class Program
     {
-        static int[,] board = new int[4, 4];
+        static int[,] board = new int[4, 4], oldBoard;
         static bool gameOver = false;
 
         static void Main(string[] args)
@@ -18,35 +18,34 @@ namespace _2048
             while (!gameOver)
             {
                 DrawBoard();
-                System.Threading.Thread.Sleep(10);
-                Move("down");
-                DrawBoard();
-                System.Threading.Thread.Sleep(10);
-                Move("left");
-                DrawBoard();
-                System.Threading.Thread.Sleep(10);
 
+                oldBoard = board.Clone() as int[,];
 
-                ////AddRandom();
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
-                //Move("up");
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
+                var ch = Console.ReadKey(false).Key;
+                switch (ch)
+                {
+                    case ConsoleKey.LeftArrow:
+                        Move("left");
+                        break;
+                    case ConsoleKey.UpArrow:
+                        Move("up");
+                        break;
+                    case ConsoleKey.DownArrow:
+                        Move("down");
+                        break;
+                    case ConsoleKey.RightArrow:
+                        Move("right");
+                        break;
+                }
 
-                //AddRandom();
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
-                //Move("right");
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
-
-                ////AddRandom();
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
-                //Move("down");
-                //DrawBoard();
-                //System.Threading.Thread.Sleep(1000);
+                if (board != oldBoard)
+                {
+                    AddRandom();
+                }
+                if (!CanMove())
+                {
+                    gameOver = true;
+                }
             }
 
             Console.WriteLine("GAME OVER");
@@ -62,14 +61,34 @@ namespace _2048
                 for (int c = 0; c < board.GetLength(1); c++)
                 {
                     int space = 7 - board[r, c].ToString().Length;
+                    ChangeColor(board[r, c]);
                     Console.Write(Space(space/2) + board[r, c] + Space(space - (space/2)));
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine("\n\n");
             }
         }
 
+        static void ChangeColor(int i)
+        {
+            if (i == 2)     { Console.ForegroundColor = ConsoleColor.Yellow; }
+            if (i == 4)     { Console.ForegroundColor = ConsoleColor.DarkYellow; }
+            if (i == 8)     { Console.ForegroundColor = ConsoleColor.Red; }
+            if (i == 16)    { Console.ForegroundColor = ConsoleColor.DarkRed; }
+            if (i == 32)    { Console.ForegroundColor = ConsoleColor.Magenta; }
+            if (i == 64)    { Console.ForegroundColor = ConsoleColor.DarkMagenta; }
+            if (i == 128)   { Console.ForegroundColor = ConsoleColor.Green; }
+            if (i == 256)   { Console.ForegroundColor = ConsoleColor.DarkGreen; }
+            if (i == 512)   { Console.ForegroundColor = ConsoleColor.Blue; }
+            if (i == 1024)  { Console.ForegroundColor = ConsoleColor.DarkBlue; }
+            if (i == 2048)  { Console.ForegroundColor = ConsoleColor.DarkCyan; }
+            
+        }
+
         static void Move(string dir)
         {
+            oldBoard = board.Clone() as int[,];
+
             if (dir == "left")
             {
                 for (int r = 0; r < board.GetLength(0); r++)
@@ -221,8 +240,35 @@ namespace _2048
                     }
                 }
             }
+        }
 
-            AddRandom();
+        static bool CanMove()
+        {
+            Move("right");
+            if (board != oldBoard)
+            {
+                board = oldBoard;
+                return true;
+            }
+            Move("left");
+            if (board != oldBoard)
+            {
+                board = oldBoard;
+                return true;
+            }
+            Move("up");
+            if (board != oldBoard)
+            {
+                board = oldBoard;
+                return true;
+            }
+            Move("down");
+            if (board != oldBoard)
+            {
+                board = oldBoard;
+                return true;
+            }
+            return false;
         }
 
         static void AddRandom()
@@ -257,11 +303,6 @@ namespace _2048
             {
                 int ind = rnd.Next(empty.Count);
                 board[empty[ind].Item1, empty[ind].Item2] = num;
-            }
-
-            else
-            {
-                gameOver = true;
             }
         }
 

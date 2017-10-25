@@ -5,3 +5,9 @@ C:\Users\SUNNY\source\repos\2048\2048\obj\Debug\2048.csprojResolveAssemblyRefere
 C:\Users\SUNNY\source\repos\2048\2048\obj\Debug\2048.csproj.CoreCompileInputs.cache
 C:\Users\SUNNY\source\repos\2048\2048\obj\Debug\2048.exe
 C:\Users\SUNNY\source\repos\2048\2048\obj\Debug\2048.pdb
+C:\Users\eahscs\Documents\GitHub\2048\2048\bin\Debug\2048.exe.config
+C:\Users\eahscs\Documents\GitHub\2048\2048\bin\Debug\2048.exe
+C:\Users\eahscs\Documents\GitHub\2048\2048\bin\Debug\2048.pdb
+C:\Users\eahscs\Documents\GitHub\2048\2048\obj\Debug\2048.csprojResolveAssemblyReference.cache
+C:\Users\eahscs\Documents\GitHub\2048\2048\obj\Debug\2048.exe
+C:\Users\eahscs\Documents\GitHub\2048\2048\obj\Debug\2048.pdb
