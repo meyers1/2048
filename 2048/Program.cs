@@ -17,34 +17,56 @@ namespace _2048
 
             while (!gameOver)
             {
-                DrawBoard();
-
                 oldBoard = board.Clone() as int[,];
+                DrawBoard();
 
                 var ch = Console.ReadKey(false).Key;
                 switch (ch)
                 {
                     case ConsoleKey.LeftArrow:
-                        Move("left");
+                        if (CanMove("left"))
+                        {
+                            Move("left");
+                            AddRandom();
+                        }
+                        else if (!CanMove())
+                        {
+                            gameOver = true;
+                        }
                         break;
                     case ConsoleKey.UpArrow:
-                        Move("up");
+                        if (CanMove("up"))
+                        {
+                            Move("up");
+                            AddRandom();
+                        }
+                        else if (!CanMove())
+                        {
+                            gameOver = true;
+                        }
                         break;
                     case ConsoleKey.DownArrow:
-                        Move("down");
+                        if (CanMove("down"))
+                        {
+                            Move("down");
+                            AddRandom();
+                        }
+                        else if (!CanMove())
+                        {
+                            gameOver = true;
+                        }
                         break;
                     case ConsoleKey.RightArrow:
-                        Move("right");
+                        if (CanMove("right"))
+                        {
+                            Move("right");
+                            AddRandom();
+                        }
+                        else if (!CanMove())
+                        {
+                            gameOver = true;
+                        }
                         break;
-                }
-
-                if (board != oldBoard)
-                {
-                    AddRandom();
-                }
-                if (!CanMove())
-                {
-                    gameOver = true;
                 }
             }
 
@@ -87,8 +109,6 @@ namespace _2048
 
         static void Move(string dir)
         {
-            oldBoard = board.Clone() as int[,];
-
             if (dir == "left")
             {
                 for (int r = 0; r < board.GetLength(0); r++)
@@ -241,33 +261,29 @@ namespace _2048
                 }
             }
         }
-
         static bool CanMove()
         {
-            Move("right");
-            if (board != oldBoard)
+            if (!CanMove("left") && !CanMove("right") && !CanMove("up") && !CanMove("down"))
             {
-                board = oldBoard;
-                return true;
+                return false;
             }
-            Move("left");
-            if (board != oldBoard)
-            {
-                board = oldBoard;
-                return true;
-            }
-            Move("up");
-            if (board != oldBoard)
-            {
-                board = oldBoard;
-                return true;
-            }
-            Move("down");
-            if (board != oldBoard)
-            {
-                board = oldBoard;
-                return true;
-            }
+            return true;
+        }
+
+        static bool CanMove(string dir)
+        {
+            oldBoard = board.Clone() as int[,];
+
+            Move(dir);
+            for (int x = 0; x < 4; x++)
+                for (int y = 0; y < 4; y++)
+                    if (board[x, y] != oldBoard[x, y])
+                    {
+                        for (int i = 0; i < 4; i++)
+                            for (int j = 0; j < 4; j++)
+                                board[i, j] = oldBoard[i, j];
+                        return true;
+                    }
             return false;
         }
 
